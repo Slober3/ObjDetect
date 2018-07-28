@@ -1,19 +1,18 @@
-import numpy as np
 import cv2
 import imutils
-from flask import Flask, render_template, Response
+from flask import Flask, Response
 cap = cv2.VideoCapture(0)
 
 class ShapeDetector:
 	def __init__(self):
 		pass
+	@classmethod 
 	def detect(self, c):
 		shape = "unidentified"
 		peri = cv2.arcLength(c, True)
 		approx = cv2.approxPolyDP(c, 0.04 * peri, True)
 		area1 = cv2.contourArea(approx);
 		if len(approx) == 4:
-		    (x, y, w, h) = cv2.boundingRect(approx)
 		    shape = "Stuff" if 10000 <= area1 else "unidentified"
 		elif area1 >= 35000:
                     shape = "Intruder"
