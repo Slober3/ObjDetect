@@ -12,7 +12,7 @@ args = parser.parse_args()
 class ShapeDetector:
 	def __init__(self):
 		pass
-	@classmethod 
+	@classmethod
 	def detect(self, c):
 		shape = "unidentified"
 		peri = cv2.arcLength(c, True)
