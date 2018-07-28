@@ -1,7 +1,13 @@
 import cv2
 import imutils
+import argparse
 from flask import Flask, Response
 cap = cv2.VideoCapture(0)
+
+parser = argparse.ArgumentParser(description="Command line arguments")
+parser.add_argument('-i',action='store', metavar='<ip>', default='0.0.0.0', help='The ip to bind default 0.0.0.0')
+parser.add_argument('-p',action='store', metavar='<port>', default='5000', help='The port to listen on default 5000')
+args = parser.parse_args()
 
 class ShapeDetector:
 	def __init__(self):
@@ -60,4 +66,4 @@ def video_feed():
         mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host=args.i, port=int(args.p))
