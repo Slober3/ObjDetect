@@ -1,10 +1,8 @@
 import numpy as np
 import cv2
 import imutils
-import pyimagesearch
 from flask import Flask, render_template, Response
 cap = cv2.VideoCapture(0)
-
 
 class ShapeDetector:
 	def __init__(self):
@@ -16,17 +14,12 @@ class ShapeDetector:
 		area1 = cv2.contourArea(approx);
 		if len(approx) == 4:
 		    (x, y, w, h) = cv2.boundingRect(approx)
-		    ar = w / float(h)
 		    shape = "Stuff" if 10000 <= area1 else "unidentified"
 		elif area1 >= 35000:
                     shape = "Intruder"
 		return shape
 
 app = Flask(__name__)
-@app.route('/')
-def index():
-    return render_template('index.html')
-
 def gen():
     while True:
         rval, frame = cap.read()
@@ -48,7 +41,7 @@ def gen():
                 if shape != "unidentified":
                     c = c.astype("float")
                     c = c.astype("int")
-                    if shape != "intruder":
+                    if shape != "Intruder":
                         cv2.rectangle(frame,(x,y),(x+w,y+h), (0, 255, 0), 2)
                         cv2.putText(frame, shape, (cX, cY), cv2.FONT_HERSHEY_SIMPLEX,
                                 0.5, (255, 255, 255), 2)
