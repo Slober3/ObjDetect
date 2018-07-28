@@ -17,10 +17,12 @@ class ShapeDetector:
 		shape = "unidentified"
 		peri = cv2.arcLength(c, True)
 		approx = cv2.approxPolyDP(c, 0.04 * peri, True)
+		(x, y, w, h) = cv2.boundingRect(approx)
+		ar = w / float(h)
 		area1 = cv2.contourArea(approx);
-		if len(approx) == 4:
-		    shape = "Stuff" if 10000 <= area1 else "unidentified"
-		elif area1 >= 35000:
+		if len(approx) == 4 and 11000 <= area1 <= 27500:
+		    shape = "Stuff"+" "+" area "+str(area1) if  0.725 <= ar <= 1.966  else "Intruder"
+		elif area1 >= 22000:
                     shape = "Intruder"
 		return shape
 
@@ -47,11 +49,19 @@ def gen():
                     c = c.astype("float")
                     c = c.astype("int")
                     if shape != "Intruder":
+                        '''
+                        Drawing rectangle around the stuff
                         cv2.rectangle(frame,(x,y),(x+w,y+h), (0, 255, 0), 2)
+                        '''
+                        cv2.drawContours(frame, [c], 0, (0,255,0), 3)
                         cv2.putText(frame, shape, (cX, cY), cv2.FONT_HERSHEY_SIMPLEX,
                                 0.5, (255, 255, 255), 2)
                     else:
+                        '''
+                        Drawing rectangle around the stuff
                         cv2.rectangle(frame,(x,y),(x+w,y+h), (255, 0, 255), 2)
+                        '''
+                        cv2.drawContours(frame, [c], 0, (255,0,255), 3)
                         cv2.putText(frame, shape, (cX, cY), cv2.FONT_HERSHEY_SIMPLEX,
                                 0.5, (255, 0, 255), 2)
                     cv2.imwrite('stream.jpg', frame)
