@@ -17,9 +17,9 @@ class ShapeDetector:
 		if len(approx) == 4:
 		    (x, y, w, h) = cv2.boundingRect(approx)
 		    ar = w / float(h)
-		    shape = "Rechthoek" if 10000 <= area1 else "unidentified"
+		    shape = "Stuff" if 10000 <= area1 else "unidentified"
 		elif area1 >= 35000:
-                    shape = "intruder"
+                    shape = "Intruder"
 		return shape
 
 app = Flask(__name__)
